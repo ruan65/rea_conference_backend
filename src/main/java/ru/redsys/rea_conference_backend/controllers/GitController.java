@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ru.redsys.rea_conference_backend.model.InputMessage;
+import ru.redsys.rea_conference_backend.model.LoginPageInput;
 import ru.redsys.rea_conference_backend.model.OutputMessage;
 
 import java.io.BufferedWriter;
@@ -18,27 +18,38 @@ import java.util.Date;
 public class GitController {
 
 
-    //    static String fileName = "/home/a/temp/writtenByJava.txt";
-    static String fileName = "/home/a/dev/reaproto/reaproto_2/reaproto/ruch_mobile_chat_client/app/src/main/res/raw/text.txt";
+    final static String fileNamePrefix = "/home/a/dev/reaproto/conference/RosenergoatomConference/app/src/main/res/raw/";
+    final static String eventFileName = fileNamePrefix + "event.txt";
+    final static String titleFileName = fileNamePrefix + "title.txt";
+    final static String dateFileName = fileNamePrefix + "date.txt";
 
-    @RequestMapping(value = "/change/text", method = RequestMethod.POST)
-    public OutputMessage changeText(@RequestBody InputMessage msg) {
+    @RequestMapping(value = "/update/login", method = RequestMethod.POST)
+    public LoginPageInput changeText(@RequestBody LoginPageInput data) {
 
-        writeToFileHelper(fileName, msg.getText());
+        writeToFileHelper(eventFileName, data.event);
+        writeToFileHelper(titleFileName, data.title);
+        writeToFileHelper(dateFileName, data.date);
 
-        return new OutputMessage(msg.getFrom(), msg.getText() + " - this is response!", new Date().toString());
+        return data;
     }
+
 
     @RequestMapping("/read/text")
     public String readWrittenText() {
 
         String text = null;
         try {
-            text = new String(Files.readAllBytes(Paths.get(fileName)));
+            text = new String(Files.readAllBytes(Paths.get(titleFileName)));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return text;
+    }
+
+    @RequestMapping("/")
+    public String root() {
+
+        return "Hello my dear friend!!!";
     }
 
     @RequestMapping("deploy/apk")
