@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.redsys.rea_conference_backend.model.LoginPageInput;
 import ru.redsys.rea_conference_backend.model.OutputMessage;
+import ru.redsys.rea_conference_backend.model.SchedulePageInput;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -22,13 +23,24 @@ public class GitController {
     final static String eventFileName = fileNamePrefix + "event.txt";
     final static String titleFileName = fileNamePrefix + "title.txt";
     final static String dateFileName = fileNamePrefix + "date.txt";
+    final static String scheduleFileName = fileNamePrefix + "schedule.txt";
 
     @RequestMapping(value = "/update/login", method = RequestMethod.POST)
-    public LoginPageInput changeText(@RequestBody LoginPageInput data) {
+    public LoginPageInput changeLoginPage(@RequestBody LoginPageInput data) {
 
         writeToFileHelper(eventFileName, data.event);
         writeToFileHelper(titleFileName, data.title);
         writeToFileHelper(dateFileName, data.date);
+
+        return data;
+    }
+
+    @RequestMapping(value = "/update/schedule", method = RequestMethod.POST)
+    public SchedulePageInput changeText(@RequestBody SchedulePageInput data) {
+
+        System.out.println("schedule data...." + data);
+
+        writeToFileHelper(scheduleFileName, data.schedule);
 
         return data;
     }
