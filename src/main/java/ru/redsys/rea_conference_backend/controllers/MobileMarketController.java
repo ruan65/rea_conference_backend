@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RestController
 public class MobileMarketController {
 
-    final static String APK_PATH = "/home/a/dev/reaproto/conference/RosenergoatomConference/app/release/";
+    final static String APK_PATH = "/home/a/dev/reaproto/conference/RosenergoatomConference/app/build/outputs/apk/debug";
 
     // Getting .apk file from the server
 
@@ -41,6 +41,7 @@ public class MobileMarketController {
 
     private List<Path> getApkFile(String apkSpecifiedDir) {
 
+//        String apkDirectory = System.getProperty(SERVER_USER_DIR) + apkSpecifiedDir;
         String apkDirectory = APK_PATH;
 
         Path apkLocationPath = Paths.get(apkDirectory);
