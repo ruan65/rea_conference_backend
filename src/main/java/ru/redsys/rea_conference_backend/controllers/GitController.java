@@ -74,8 +74,22 @@ public class GitController {
     }
 
 
+    @RequestMapping("assemble/apk")
+    public OutputMessage assembleApk() {
+
+        System.out.println("Assemble apk called");
+
+        assembleDebugScript();
+
+        return createAssembleOutput();
+    }
+
     public static OutputMessage createDeployOutput() {
         return new OutputMessage("Redsys deployment tool", "Deployed, Run on the device now!", new Date().toString());
+    }
+
+    public static OutputMessage createAssembleOutput() {
+        return new OutputMessage("Redsys assemble tool", "Assembled, Download and install on the device now!", new Date().toString());
     }
 
     public static void writeToFileHelper(String fileName, String text) {
@@ -97,6 +111,17 @@ public class GitController {
         try {
             Process pr = Runtime.getRuntime().exec(cmd);
             System.out.println("Deployed!!!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void assembleDebugScript() {
+
+        String[] cmd = new String[]{"/bin/sh", "/home/a/dev/reaproto/conference/rea_conference_backend/assembleApk.sh"};
+        try {
+            Process pr = Runtime.getRuntime().exec(cmd);
+            System.out.println("Assembled!!!");
         } catch (IOException e) {
             e.printStackTrace();
         }
